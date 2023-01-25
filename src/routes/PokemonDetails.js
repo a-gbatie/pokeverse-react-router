@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Card from 'react-bootstrap/Card';
 import { useParams } from "react-router-dom"
 
 function PokemonDetails() {
@@ -10,6 +11,7 @@ function PokemonDetails() {
    .then(res => res.json())
    .then(data => {
     setPokemon(data)
+    console.log(data)
    })
  }, [])
  
@@ -21,24 +23,27 @@ function PokemonDetails() {
  
  return(
   <div>
-   {/* TRYING TO RENDER THE IMG HERE, NOT WORKING */}
-   {pokemon?.sprites.map((img) => {
-    {img.front_default}
-   })}
-    <h3>{pokemon.name}</h3>
-    <p>height: {pokemon.height}</p>
-    <p>weight: {pokemon.weight}</p>
+  <Card border="secondary" style={{ width: '20rem' }}>
+    <Card.Body className="text-center">
+  <img src={pokemon?.sprites?.front_default} />
+  <img src={pokemon?.sprites?.back_default} />
+  <img src={pokemon?.sprites?.front_shiny} />
+  <img src={pokemon?.sprites?.back_shiny} />
+      <Card.Header as="h2">{pokemon.name}</Card.Header>
+      <br></br>
+      <Card.Text><h5>Height: {pokemon.height}</h5>
+    <h5>Weight: {pokemon.weight}</h5>
     <h5>Abilities:</h5> 
-    <ul>
-     {pokemon?.abilities?.map((power) => {
-      <li>
-       {/* NOT SEEING ANYTHING BEING RENDERED HERE. TRIED TO ACCESS THE ABILIITIES WITH {power.abilitity.name} */}
-       <p>hello</p>
-      </li>
-     })}
-    </ul>
+      {pokemon?.abilities?.map((power) => (
+        <ul>
+          <p> • {power.ability.name}</p>
+        </ul>
+      ))}
+    </Card.Text>
+    </Card.Body>
+  </Card>  
   </div>
- )
+  )
 }
 
 export { PokemonDetails }
